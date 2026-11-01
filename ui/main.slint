@@ -1,0 +1,285 @@
+import { TextEdit } from "std-widgets.slint";
+
+export component MainWindow inherits Window {
+    title: "Prism";
+    width: 1120px;
+    height: 760px;
+    background: #0c1012;
+
+    in-out property <int> active-page: 0;
+    in property <int> vm-count: 0;
+    in-out property <string> profile-xml: "";
+    in-out property <string> profile-result: "Paste or edit a version 1 profile, then validate it to review the planned operations.";
+    callback preview-config(string);
+
+    HorizontalLayout {
+        spacing: 0px;
+
+        Rectangle {
+            width: 204px;
+            background: #111719;
+            border-color: #20292b;
+            border-width: 0px;
+
+            VerticalLayout {
+                padding-left: 18px;
+                padding-right: 18px;
+                padding-top: 22px;
+                padding-bottom: 16px;
+                spacing: 8px;
+
+                HorizontalLayout {
+                    height: 40px;
+                    spacing: 10px;
+                    Rectangle {
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 9px;
+                        background: #b7f36b;
+                        Text { text: "P"; color: #172019; font-size: 19px; font-weight: 700; horizontal-alignment: center; vertical-alignment: center; }
+                    }
+                    Text { text: "prism"; color: #f0f3f1; font-size: 20px; font-weight: 700; vertical-alignment: center; }
+                }
+
+                Text { text: "WORKSPACE"; color: #748180; font-size: 10px; font-weight: 700; vertical-alignment: center; height: 30px; }
+
+                Rectangle {
+                    height: 38px;
+                    border-radius: 6px;
+                    background: active-page == 0 ? #26342d : transparent;
+                    HorizontalLayout {
+                        padding-left: 10px;
+                        spacing: 10px;
+                        Text { text: "▦"; color: active-page == 0 ? #b7f36b : #a5b0ad; font-size: 16px; vertical-alignment: center; }
+                        Text { text: "Dashboard"; color: active-page == 0 ? #e8f5e8 : #a5b0ad; font-size: 13px; vertical-alignment: center; }
+                    }
+                    TouchArea { clicked => { root.active-page = 0; } }
+                }
+                Rectangle {
+                    height: 38px;
+                    border-radius: 6px;
+                    background: active-page == 1 ? #26342d : transparent;
+                    HorizontalLayout {
+                        padding-left: 10px;
+                        spacing: 10px;
+                        Text { text: "◈"; color: active-page == 1 ? #b7f36b : #a5b0ad; font-size: 16px; vertical-alignment: center; }
+                        Text { text: "ROM library"; color: active-page == 1 ? #e8f5e8 : #a5b0ad; font-size: 13px; vertical-alignment: center; }
+                    }
+                    TouchArea { clicked => { root.active-page = 1; } }
+                }
+                Rectangle {
+                    height: 38px;
+                    border-radius: 6px;
+                    background: active-page == 2 ? #26342d : transparent;
+                    HorizontalLayout {
+                        padding-left: 10px;
+                        spacing: 10px;
+                        Text { text: "⌘"; color: active-page == 2 ? #b7f36b : #a5b0ad; font-size: 16px; vertical-alignment: center; }
+                        Text { text: "Automation"; color: active-page == 2 ? #e8f5e8 : #a5b0ad; font-size: 13px; vertical-alignment: center; }
+                    }
+                    TouchArea { clicked => { root.active-page = 2; } }
+                }
+                Rectangle {
+                    height: 38px;
+                    border-radius: 6px;
+                    background: active-page == 3 ? #26342d : transparent;
+                    HorizontalLayout {
+                        padding-left: 10px;
+                        spacing: 10px;
+                        Text { text: "◇"; color: active-page == 3 ? #b7f36b : #a5b0ad; font-size: 16px; vertical-alignment: center; }
+                        Text { text: "APK library"; color: active-page == 3 ? #e8f5e8 : #a5b0ad; font-size: 13px; vertical-alignment: center; }
+                    }
+                    TouchArea { clicked => { root.active-page = 3; } }
+                }
+                Rectangle {
+                    height: 38px;
+                    border-radius: 6px;
+                    background: active-page == 4 ? #26342d : transparent;
+                    HorizontalLayout {
+                        padding-left: 10px;
+                        spacing: 10px;
+                        Text { text: "⇄"; color: active-page == 4 ? #b7f36b : #a5b0ad; font-size: 16px; vertical-alignment: center; }
+                        Text { text: "Shared files"; color: active-page == 4 ? #e8f5e8 : #a5b0ad; font-size: 13px; vertical-alignment: center; }
+                    }
+                    TouchArea { clicked => { root.active-page = 4; } }
+                }
+                Rectangle {
+                    height: 38px;
+                    border-radius: 6px;
+                    background: active-page == 5 ? #26342d : transparent;
+                    HorizontalLayout {
+                        padding-left: 10px;
+                        spacing: 10px;
+                        Text { text: "◉"; color: active-page == 5 ? #b7f36b : #a5b0ad; font-size: 16px; vertical-alignment: center; }
+                        Text { text: "Accessibility"; color: active-page == 5 ? #e8f5e8 : #a5b0ad; font-size: 13px; vertical-alignment: center; }
+                    }
+                    TouchArea { clicked => { root.active-page = 5; } }
+                }
+
+                Rectangle { height: 1px; background: #263032; }
+                Text { text: "ENGINE STATUS"; color: #748180; font-size: 10px; font-weight: 700; height: 28px; vertical-alignment: center; }
+                Rectangle {
+                    height: 54px;
+                    border-radius: 6px;
+                    background: #191f21;
+                    VerticalLayout {
+                        padding-left: 10px;
+                        padding-right: 8px;
+                        padding-top: 8px;
+                        padding-bottom: 7px;
+                        spacing: 3px;
+                        Text { text: "No VM backend"; color: #e9c27a; font-size: 12px; font-weight: 600; }
+                        Text { text: "Guest execution unavailable"; color: #899491; font-size: 10px; }
+                    }
+                }
+                Rectangle { vertical-stretch: 1; background: transparent; }
+                Text { text: "PRISM 0.1.0 · GPL-3.0"; color: #687371; font-size: 10px; }
+            }
+        }
+
+        Rectangle {
+            background: #0c1012;
+            VerticalLayout {
+                padding-left: 34px;
+                padding-right: 34px;
+                padding-top: 26px;
+                padding-bottom: 24px;
+                spacing: 18px;
+
+                HorizontalLayout {
+                    height: 54px;
+                    VerticalLayout {
+                        spacing: 3px;
+                        Text {
+                            text: active-page == 0 ? "Your machines" : active-page == 1 ? "ROM library" : active-page == 2 ? "Automation profiles" : active-page == 3 ? "APK library" : active-page == 4 ? "Shared files" : "Accessibility";
+                            color: #f0f4f1;
+                            font-size: 24px;
+                            font-weight: 650;
+                        }
+                        Text {
+                            text: active-page == 0 ? "Virtual devices, in one place." : active-page == 1 ? "Discover and inspect Android images." : active-page == 2 ? "Review XML setup plans before applying them." : active-page == 3 ? "Keep guest packages organized." : active-page == 4 ? "Controlled host-to-guest transfers." : "Prism interface preferences.";
+                            color: #8d9996;
+                            font-size: 12px;
+                        }
+                    }
+                    Rectangle { horizontal-stretch: 1; background: transparent; }
+                    if active-page == 0: Text { text: "{vm-count} registered"; color: #b0bbb7; font-size: 11px; vertical-alignment: center; }
+                }
+
+                if active-page == 0: Rectangle {
+                    height: 34px;
+                    border-radius: 5px;
+                    background: #22241d;
+                    HorizontalLayout {
+                        padding-left: 12px;
+                        spacing: 8px;
+                        Text { text: "!"; color: #e9c27a; font-size: 13px; font-weight: 700; vertical-alignment: center; }
+                        Text { text: "No compatible VM engine is configured. Prism will not report guests as running."; color: #d7cba8; font-size: 11px; vertical-alignment: center; }
+                    }
+                }
+
+                if active-page == 0: Rectangle {
+                    vertical-stretch: 1;
+                    border-radius: 8px;
+                    background: #101618;
+                    border-color: #273133;
+                    border-width: 1px;
+                    VerticalLayout {
+                        alignment: center;
+                        spacing: 9px;
+                        Text { text: "▱"; color: #b7f36b; font-size: 36px; horizontal-alignment: center; }
+                        Text { text: "No virtual machines yet"; color: #e7eeea; font-size: 17px; font-weight: 600; horizontal-alignment: center; }
+                        Text { text: "An image alone is not a bootable VM. Add a backend before importing or launching guests."; color: #899592; font-size: 12px; horizontal-alignment: center; wrap: word-wrap; }
+                        Text { text: "VM lifecycle · imports · downloads are disabled until a backend reports support"; color: #687572; font-size: 10px; horizontal-alignment: center; }
+                    }
+                }
+
+                if active-page == 1: Rectangle {
+                    vertical-stretch: 1;
+                    border-radius: 8px;
+                    background: #101618;
+                    border-color: #273133;
+                    border-width: 1px;
+                    VerticalLayout {
+                        alignment: center;
+                        spacing: 9px;
+                        Text { text: "ROM sources are not configured"; color: #e7eeea; font-size: 17px; font-weight: 600; horizontal-alignment: center; }
+                        Text { text: "Imported image compatibility depends on firmware, kernel, partitions, architecture, and backend support."; color: #899592; font-size: 12px; horizontal-alignment: center; wrap: word-wrap; }
+                        Text { text: "Import inspection model: planned · ROM download manager: planned"; color: #687572; font-size: 10px; horizontal-alignment: center; }
+                    }
+                }
+
+                if active-page == 2: Rectangle {
+                    vertical-stretch: 1;
+                    border-radius: 8px;
+                    background: #101618;
+                    border-color: #273133;
+                    border-width: 1px;
+                    VerticalLayout {
+                        padding: 18px;
+                        spacing: 12px;
+                        Text { text: "Profile XML"; color: #e7eeea; font-size: 15px; font-weight: 600; }
+                        Rectangle {
+                            vertical-stretch: 1;
+                            border-radius: 5px;
+                            background: #0c1012;
+                            border-color: #303b3c;
+                            border-width: 1px;
+                            VerticalLayout {
+                                padding: 10px;
+                                TextEdit {
+                                    text <=> root.profile-xml;
+                                    font-size: 12px;
+                                    font-family: "monospace";
+                                    wrap: word-wrap;
+                                }
+                            }
+                        }
+                        HorizontalLayout {
+                            height: 34px;
+                            Rectangle {
+                                width: 168px;
+                                border-radius: 5px;
+                                background: #b7f36b;
+                                Text { text: "Validate and preview"; color: #172019; font-size: 11px; font-weight: 700; horizontal-alignment: center; vertical-alignment: center; }
+                                TouchArea { clicked => { root.preview-config(root.profile-xml); } }
+                            }
+                            Rectangle { horizontal-stretch: 1; background: transparent; }
+                            Text { text: "Preview only · nothing is executed"; color: #899592; font-size: 10px; vertical-alignment: center; }
+                        }
+                        Rectangle {
+                            height: 114px;
+                            border-radius: 5px;
+                            background: #171e20;
+                            border-color: #283334;
+                            border-width: 1px;
+                            Text {
+                                text: root.profile-result;
+                                color: #bdc9c4;
+                                font-size: 11px;
+                                wrap: word-wrap;
+                                vertical-alignment: center;
+                                horizontal-alignment: left;
+                            }
+                        }
+                    }
+                }
+
+                if active-page > 2: Rectangle {
+                    vertical-stretch: 1;
+                    border-radius: 8px;
+                    background: #101618;
+                    border-color: #273133;
+                    border-width: 1px;
+                    VerticalLayout {
+                        alignment: center;
+                        spacing: 9px;
+                        Text { text: active-page == 2 ? "XML validation is available in the shared Rust core" : active-page == 3 ? "APK guest operations need a VM backend" : active-page == 4 ? "No host files are exposed to guests" : "Host accessibility settings are separate from guest accessibility"; color: #e7eeea; font-size: 17px; font-weight: 600; horizontal-alignment: center; }
+                        Text { text: active-page == 2 ? "Configuration profiles can be parsed and previewed; nothing is executed automatically." : active-page == 3 ? "APK import, analysis, and installation require a compatible, permissioned guest." : active-page == 4 ? "Per-VM shared folders and transfer controls are not yet implemented." : "Screen reader labels, keyboard navigation, and reduced-motion behavior follow Slint platform support."; color: #899592; font-size: 12px; horizontal-alignment: center; wrap: word-wrap; }
+                        Text { text: active-page == 2 ? "Approved guest commands only · destructive actions require confirmation" : active-page == 3 ? "Installation history: unavailable · external downloads: never automatic" : active-page == 4 ? "File sharing: planned · unrestricted filesystem access: never" : "Adjustable scale and native Narrator bridge: planned"; color: #687572; font-size: 10px; horizontal-alignment: center; }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+<prism-config version="1">
+  <vm>
+    <name>My Android VM</name>
+    <android-version>13</android-version>
+    <ram>4096</ram>
+    <storage>32</storage>
+  </vm>
+  <display>
+    <resolution width="1080" height="2400" />
+    <orientation>portrait</orientation>
+    <fullscreen>true</fullscreen>
+  </display>
+  <applications>
+    <install source="local" path="apps/example.apk" />
+  </applications>
+  <system>
+    <root enabled="false" />
+    <shizuku enabled="false" />
+  </system>
+  <sharing>
+    <enabled>true</enabled>
+    <shared-directory>PrismShared</shared-directory>
+  </sharing>
+</prism-config>

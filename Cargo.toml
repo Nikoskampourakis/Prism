@@ -1,0 +1,24 @@
+[package]
+name = "prism"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92"
+description = "A free, cross-platform virtual machine manager"
+license = "GPL-3.0-only"
+build = "build.rs"
+
+[dependencies]
+directories = "6"
+quick-xml = { version = "0.38", features = ["serialize"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+slint = { version = "1.13", default-features = false, features = ["std", "compat-1-2", "backend-winit", "renderer-software"] }
+thiserror = "2"
+url = "2"
+uuid = { version = "1", features = ["v4", "serde"] }
+
+[build-dependencies]
+slint-build = "1.13"
+
+[dev-dependencies]
+tempfile = "3"
